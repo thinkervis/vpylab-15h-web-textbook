@@ -387,7 +387,7 @@ while True:
   <div class="lesson">
     <div class="lesson-title"><span class="badge">8차시</span><h3>3단계: 키보드로 목표를 조금씩 조정하기</h3></div>
     <p><strong>목표:</strong> 마우스 클릭은 큰 이동, 키보드는 미세 조정으로 역할을 나눈다. 학생이 입력 방식마다 다른 사용자 경험을 비교할 수 있게 한다.</p>
-    <p><span class="tag">keysdown</span><span class="tag">ArrowLeft</span><span class="tag">A/D</span></p>
+    <p><span class="tag">keysdown</span><span class="tag">left / ArrowLeft</span><span class="tag">A/D</span></p>
     <div class="copy-wrap"><div class="copy-head"><span>실습 코드 6-3: 클릭 + 키보드 조작</span><button class="copy">복사</button></div><pre><code>from vpython import *
 
 scene_background(color.cyan)
@@ -407,9 +407,9 @@ while True:
         target_x = click.pos.x
 
     keys = keysdown()
-    if 'ArrowLeft' in keys or 'a' in keys:
+    if 'left' in keys or 'ArrowLeft' in keys or 'a' in keys:
         target_x = target_x - 0.06
-    if 'ArrowRight' in keys or 'd' in keys:
+    if 'right' in keys or 'ArrowRight' in keys or 'd' in keys:
         target_x = target_x + 0.06
 
     if target_x > 3.7:
@@ -497,9 +497,9 @@ while True:
         note_index = (note_index + 1) % len(garden_notes)
 
     keys = keysdown()
-    if 'ArrowLeft' in keys or 'a' in keys:
+    if 'left' in keys or 'ArrowLeft' in keys or 'a' in keys:
         target_x = target_x - 0.06
-    if 'ArrowRight' in keys or 'd' in keys:
+    if 'right' in keys or 'ArrowRight' in keys or 'd' in keys:
         target_x = target_x + 0.06
 
     if target_x > 3.7:
