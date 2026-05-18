@@ -6,14 +6,16 @@
   <title>VPyLab 15시간 웹 교재 — 3D와 소리로 표현하는 파이썬</title>
   <style>
     :root {
-      --bg: #f7f8fb;
-      --panel: #ffffff;
+      --bg: #f6f7ff;
+      --panel: rgba(255,255,255,.88);
       --text: #172033;
       --muted: #667085;
-      --line: #d9e0ec;
-      --brand: #4f46e5;
+      --line: #dbe3f4;
+      --brand: #6366f1;
       --brand2: #06b6d4;
-      --code: #101828;
+      --accent: #f59e0b;
+      --pink: #ec4899;
+      --code: #0f172a;
       --codeText: #e6edf3;
       --ok: #16a34a;
     }
@@ -21,16 +23,24 @@
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top left, rgba(99,102,241,.18), transparent 34rem),
+        radial-gradient(circle at top right, rgba(6,182,212,.18), transparent 32rem),
+        var(--bg);
       color: var(--text);
       line-height: 1.65;
     }
     header {
       padding: 56px 20px 40px;
-      background: linear-gradient(135deg, #312e81, #0891b2);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.22), transparent 18rem),
+        linear-gradient(135deg, #312e81, #0891b2 55%, #ec4899);
       color: white;
+      position: relative;
+      overflow: hidden;
     }
-    header .wrap, main { max-width: 1080px; margin: 0 auto; }
+    header::after { content: "✦ 3D · Sound · Team · GitHub"; position:absolute; right:24px; bottom:18px; opacity:.22; font-size: clamp(1.5rem, 5vw, 4rem); font-weight:900; }
+    header .wrap, main { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
     h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.1; margin: 0 0 16px; }
     h2 { margin-top: 56px; font-size: 2rem; border-bottom: 2px solid var(--line); padding-bottom: 8px; }
     h3 { margin-top: 32px; font-size: 1.35rem; }
@@ -41,16 +51,17 @@
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
     .card, .lesson, .note, .teacher {
       background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
+      border: 1px solid rgba(219,227,244,.9);
+      border-radius: 22px;
       padding: 20px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, .04);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, .08);
     }
     .card strong { display:block; font-size:1.05rem; margin-bottom:6px; }
-    .tag { display:inline-block; padding:4px 9px; border-radius:999px; background:#eef2ff; color:#3730a3; font-size:.85rem; margin: 2px 4px 2px 0; }
+    .tag { display:inline-block; padding:4px 9px; border-radius:999px; background:linear-gradient(135deg,#eef2ff,#ecfeff); color:#3730a3; font-size:.85rem; margin: 2px 4px 2px 0; border:1px solid #dbeafe; }
     .lesson { margin: 18px 0; }
     .lesson-title { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-    .badge { background: var(--brand); color:white; padding:4px 10px; border-radius:999px; font-size:.85rem; }
+    .badge { background: linear-gradient(135deg, var(--brand), var(--brand2)); color:white; padding:4px 10px; border-radius:999px; font-size:.85rem; box-shadow: 0 8px 18px rgba(99,102,241,.25); }
     .copy-wrap { margin: 16px 0 24px; border-radius: 16px; overflow: hidden; border: 1px solid #263244; background: var(--code); }
     .copy-head { display:flex; justify-content:space-between; align-items:center; padding: 10px 12px; background:#182235; color:#cbd5e1; font-size:.9rem; }
     button.copy { border:0; background: var(--brand2); color:white; padding:7px 11px; border-radius:10px; cursor:pointer; font-weight:700; }
@@ -71,6 +82,7 @@
   <div class="wrap">
     <h1>VPyLab 15시간 웹 교재</h1>
     <p class="lead">파이썬을 처음 만나는 고등학생이 3D와 소리로 생각을 표현하고, 팀원과 협력해 GitHub에 과정이 남는 프로젝트를 만드는 수업입니다.</p>
+    <p class="lead" style="font-size:1rem;margin-top:14px">작게 만들고 · 실행하고 · 고치고 · 기록하고 · 함께 발전시키는 15시간</p>
   </div>
 </header>
 <main>
@@ -171,7 +183,6 @@ while True:
 
   <div class="lesson">
     <div class="lesson-title"><span class="badge">6차시</span><h3>궤적으로 움직임의 흔적 남기기</h3></div>
-    <p><strong>중요:</strong> 현재 VPyLab에서는 <code>attach_trail(radius=...)</code>를 쓰지 않습니다. 두께 조절은 객체를 만들 때 <code>make_trail=True, trail_radius=...</code>로 합니다.</p>
     <div class="copy-wrap"><div class="copy-head"><span>실습 코드 5: 궤적 있는 공</span><button class="copy">복사</button></div><pre><code>from vpython import *
 
 scene_background(color.cyan)
