@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VPyLab 15시간 웹 교재 — 3D와 소리로 표현하는 파이썬</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --line: #d9e0ec;
+      --brand: #4f46e5;
+      --brand2: #06b6d4;
+      --code: #101828;
+      --codeText: #e6edf3;
+      --ok: #16a34a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    header {
+      padding: 56px 20px 40px;
+      background: linear-gradient(135deg, #312e81, #0891b2);
+      color: white;
+    }
+    header .wrap, main { max-width: 1080px; margin: 0 auto; }
+    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.1; margin: 0 0 16px; }
+    h2 { margin-top: 56px; font-size: 2rem; border-bottom: 2px solid var(--line); padding-bottom: 8px; }
+    h3 { margin-top: 32px; font-size: 1.35rem; }
+    h4 { margin: 22px 0 8px; }
+    p { margin: 0 0 14px; }
+    .lead { font-size: 1.2rem; max-width: 780px; opacity: .95; }
+    main { padding: 28px 20px 80px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .card, .lesson, .note, .teacher {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, .04);
+    }
+    .card strong { display:block; font-size:1.05rem; margin-bottom:6px; }
+    .tag { display:inline-block; padding:4px 9px; border-radius:999px; background:#eef2ff; color:#3730a3; font-size:.85rem; margin: 2px 4px 2px 0; }
+    .lesson { margin: 18px 0; }
+    .lesson-title { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .badge { background: var(--brand); color:white; padding:4px 10px; border-radius:999px; font-size:.85rem; }
+    .copy-wrap { margin: 16px 0 24px; border-radius: 16px; overflow: hidden; border: 1px solid #263244; background: var(--code); }
+    .copy-head { display:flex; justify-content:space-between; align-items:center; padding: 10px 12px; background:#182235; color:#cbd5e1; font-size:.9rem; }
+    button.copy { border:0; background: var(--brand2); color:white; padding:7px 11px; border-radius:10px; cursor:pointer; font-weight:700; }
+    button.copy.done { background: var(--ok); }
+    pre { margin: 0; overflow:auto; padding: 16px; color: var(--codeText); font-size: .92rem; line-height:1.55; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .note { background: #fff7ed; border-color:#fed7aa; }
+    .teacher { background: #f0fdf4; border-color:#bbf7d0; }
+    .toc a { display:block; color: var(--brand); text-decoration:none; padding: 4px 0; }
+    .small { color: var(--muted); font-size: .95rem; }
+    table { width:100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
+    th, td { border: 1px solid var(--line); padding: 10px; vertical-align: top; }
+    th { background:#eef2ff; text-align:left; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>VPyLab 15시간 웹 교재</h1>
+    <p class="lead">파이썬을 처음 만나는 고등학생이 3D와 소리로 생각을 표현하고, 팀원과 협력해 GitHub에 과정이 남는 프로젝트를 만드는 수업입니다.</p>
+  </div>
+</header>
+<main>
+  <section class="grid">
+    <div class="card"><strong>대상</strong>파이썬 미경험 고등학생</div>
+    <div class="card"><strong>시간</strong>15시간 = 5개 모듈 × 3시간</div>
+    <div class="card"><strong>핵심 경험</strong>3D 표현 · 소리 · 클릭/키보드 상호작용 · 팀 협업 · GitHub 기록</div>
+    <div class="card"><strong>최종 산출물</strong>공개 가능한 VPyLab 팀 프로젝트 + README + 항해 일지</div>
+  </section>
+
+  <h2>수업의 핵심 의미</h2>
+  <div class="lesson">
+    <p>이 수업에서 학생은 코딩을 정답을 맞히는 활동이 아니라, 자신의 생각과 아이디어를 표현하는 도구로 경험합니다. 공, 꽃, 별, 반딧불, 오르골 같은 장면을 만들며 정보·수학·과학·예술·음악이 자연스럽게 연결됩니다.</p>
+    <p>교사는 2022 개정 교육과정이 강조하는 디지털 소양, 컴퓨팅 사고, 융합적 문제 해결, 협력적 프로젝트 경험을 하나의 흐름으로 설계할 수 있습니다. 저장 이력과 GitHub 커밋은 학생의 시행착오와 성장을 과정 중심으로 보여줍니다.</p>
+  </div>
+
+  <h2>빠른 목차</h2>
+  <div class="card toc">
+    <a href="#m1">모듈 1. 내 첫 3D 장면</a>
+    <a href="#m2">모듈 2. 움직임과 조건</a>
+    <a href="#m3">모듈 3. 마우스·키보드·소리</a>
+    <a href="#m4">모듈 4. 팀 프로젝트와 GitHub 기록</a>
+    <a href="#m5">모듈 5. 최종 융합 프로젝트</a>
+    <a href="#rubric">평가 루브릭</a>
+  </div>
+
+  <h2 id="m1">모듈 1. 내 첫 3D 장면 만들기</h2>
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">1차시</span><h3>코드는 장면이 된다</h3></div>
+    <p><strong>목표:</strong> 코드 한 줄이 3D 장면이 되는 경험을 한다.</p>
+    <p><span class="tag">sphere</span><span class="tag">box</span><span class="tag">label</span><span class="tag">vector</span><span class="tag">color</span></p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 1: 내 첫 3D 정원</span><button class="copy">복사</button></div><pre><code>from vpython import *
+
+scene_background(color.cyan)
+
+label(pos=vector(0, 3, 0), text="나의 첫 3D 정원", height=18, color=color.white)
+box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
+sphere(pos=vector(0, 0.6, 0), radius=0.4, color=color.red)</code></pre></div>
+    <h4>바꿔보기</h4>
+    <ul><li>공의 색 바꾸기</li><li>공의 위치 바꾸기</li><li>제목을 내 작품 이름으로 바꾸기</li></ul>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">2차시</span><h3>반복으로 무지개 꽃밭 만들기</h3></div>
+    <p><strong>목표:</strong> 비슷한 객체를 여러 개 만들 때 반복문이 왜 필요한지 체감한다.</p>
+    <p><span class="tag">list</span><span class="tag">for</span><span class="tag">range</span></p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 2: 무지개 꽃 7송이</span><button class="copy">복사</button></div><pre><code>from vpython import *
+
+scene_background(color.cyan)
+box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
+
+colors = [color.red, color.orange, color.yellow, color.green, color.cyan, color.blue, color.magenta]
+
+for i in range(7):
+    x = -3 + i
+    box(pos=vector(x, 0.15, 0), size=vector(0.08, 0.6, 0.08), color=color.green)
+    sphere(pos=vector(x, 0.55, 0), radius=0.28, color=colors[i])</code></pre></div>
+    <h4>항해 일지</h4><p>반복문을 쓰기 전과 후의 차이는 무엇이었나요?</p>
+  </div>
+
+  <h2 id="m2">모듈 2. 움직임과 조건으로 문제 해결하기</h2>
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">4차시</span><h3>움직이는 공 만들기: 의도된 실패</h3></div>
+    <p><strong>목표:</strong> 움직임을 만들고, 공이 화면 밖으로 사라지는 문제를 관찰한다.</p>
+    <p><span class="tag">while True</span><span class="tag">rate</span><span class="tag">velocity</span></p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 3: 사라지는 구조대 공</span><button class="copy">복사</button></div><pre><code>from vpython import *
+
+scene_background(color.cyan)
+box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
+
+hero = sphere(pos=vector(-3.5, 0.45, 1.3), radius=0.25, color=color.white)
+hero.velocity = vector(0.05, 0, 0)
+
+while True:
+    rate(60)
+    hero.pos = hero.pos + hero.velocity</code></pre></div>
+    <div class="note"><strong>관찰:</strong> 공이 계속 오른쪽으로 이동하다 사라집니다. 이것은 실패가 아니라 조건문이 필요한 이유를 발견하는 순간입니다.</div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">5차시</span><h3>조건문으로 문제 해결하기</h3></div>
+    <p><strong>목표:</strong> `if` 조건문으로 공이 벽에서 돌아오게 만든다.</p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 4: 벽에서 돌아오는 공</span><button class="copy">복사</button></div><pre><code>from vpython import *
+
+scene_background(color.cyan)
+box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
+
+hero = sphere(pos=vector(-3.5, 0.45, 1.3), radius=0.25, color=color.white)
+hero.velocity = vector(0.05, 0, 0)
+
+while True:
+    rate(60)
+    hero.pos = hero.pos + hero.velocity
+
+    if hero.pos.x > 3.7 or hero.pos.x < -3.7:
+        hero.velocity.x = -hero.velocity.x</code></pre></div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">6차시</span><h3>궤적으로 움직임의 흔적 남기기</h3></div>
+    <p><strong>중요:</strong> 현재 VPyLab에서는 <code>attach_trail(radius=...)</code>를 쓰지 않습니다. 두께 조절은 객체를 만들 때 <code>make_trail=True, trail_radius=...</code>로 합니다.</p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 5: 궤적 있는 공</span><button class="copy">복사</button></div><pre><code>from vpython import *
+
+scene_background(color.cyan)
+box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
+
+hero = sphere(
+    pos=vector(-3.5, 0.45, 1.3),
+    radius=0.25,
+    color=color.white,
+    make_trail=True,
+    trail_radius=0.03
+)
+hero.velocity = vector(0.05, 0, 0)
+
+while True:
+    rate(60)
+    hero.pos = hero.pos + hero.velocity
+
+    if hero.pos.x > 3.7 or hero.pos.x < -3.7:
+        hero.velocity.x = -hero.velocity.x</code></pre></div>
+  </div>
+
+  <h2 id="m3">모듈 3. 마우스·키보드·소리로 상호작용 만들기</h2>
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">7~9차시</span><h3>클릭 오르골 정원</h3></div>
+    <p><strong>목표:</strong> 마우스 클릭을 중심으로, 키보드와 소리를 더해 상호작용 작품을 만든다.</p>
+    <p><span class="tag">scene.mouse</span><span class="tag">keysdown</span><span class="tag">play_note</span></p>
+    <div class="copy-wrap"><div class="copy-head"><span>통합 실습 코드: 클릭 오르골 정원</span><button class="copy">복사</button></div><pre><code>from vpython import *
+
+scene_background(color.cyan)
+
+label(pos=vector(0, 3.2, 0), text="무지개 정원 구조대", height=18, color=color.white)
+label(pos=vector(0, 2.8, 0), text="마우스 클릭: 공 이동 목표 · ← → 또는 A D: 직접 조종", height=8, color=color.black)
+
+box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
+
+colors = [color.red, color.orange, color.yellow, color.green, color.cyan, color.blue, color.magenta]
+flowers = []
+
+for i in range(7):
+    x = -3 + i
+    box(pos=vector(x, 0.15, 0), size=vector(0.08, 0.6, 0.08), color=color.green)
+    head = sphere(pos=vector(x, 0.55, 0), radius=0.28, color=colors[i])
+    flowers.append(head)
+
+hero = sphere(pos=vector(-3.5, 0.45, 1.3), radius=0.25, color=color.white, make_trail=True, trail_radius=0.03)
+flag = sphere(pos=vector(-3.5, 0.08, 1.3), radius=0.12, color=color.red)
+
+target_x = hero.pos.x
+garden_notes = ['도4', '미4', '솔4', '높은도4']
+note_index = 0
+
+while True:
+    rate(60)
+
+    if scene.mouse.clicked:
+        click = scene.mouse.getclick()
+        target_x = click.pos.x
+
+        if target_x > 3.7:
+            target_x = 3.7
+        if target_x < -3.7:
+            target_x = -3.7
+
+        flag.pos.x = target_x
+        play_note(garden_notes[note_index], duration=0.18, type='sine', volume=0.25)
+        note_index = (note_index + 1) % len(garden_notes)
+
+    keys = keysdown()
+    if 'ArrowLeft' in keys or 'a' in keys:
+        target_x = target_x - 0.06
+    if 'ArrowRight' in keys or 'd' in keys:
+        target_x = target_x + 0.06
+
+    if target_x > 3.7:
+        target_x = 3.7
+    if target_x < -3.7:
+        target_x = -3.7
+    flag.pos.x = target_x
+
+    if hero.pos.x < target_x:
+        hero.pos.x = hero.pos.x + 0.04
+    if hero.pos.x > target_x:
+        hero.pos.x = hero.pos.x - 0.04
+
+    for i in range(7):
+        flowers[i].radius = 0.28 + 0.04 * abs(hero.pos.x - (-3 + i)) / 7</code></pre></div>
+    <h4>확장 미션</h4>
+    <ul><li>클릭한 꽃의 색 바꾸기</li><li>음표 리스트를 우리 팀 멜로디로 바꾸기</li><li>나비를 추가하고 꽃 주변을 돌게 만들기</li></ul>
+  </div>
+
+  <h2 id="m4">모듈 4. 팀 프로젝트와 GitHub 기록</h2>
+  <div class="lesson">
+    <h3>팀 프로젝트 운영 흐름</h3>
+    <ol>
+      <li>팀장이 VPyLab 프로젝트를 만든다.</li>
+      <li>초대 코드를 팀원에게 공유한다.</li>
+      <li>팀원은 코드를 이어받아 하나씩 기능을 추가한다.</li>
+      <li>저장할 때 “한 일, 막힌 점, 다음 할 일”을 남긴다.</li>
+      <li>GitHub 저장소와 Pages 링크로 프로젝트를 공유한다.</li>
+    </ol>
+    <div class="teacher"><strong>교사용 포인트:</strong> 완성물만 보지 말고 저장 이력과 항해 일지를 함께 평가합니다. 누가 어떤 문제를 발견했고, 어떻게 해결했는지 확인할 수 있습니다.</div>
+  </div>
+
+  <div class="lesson">
+    <h3>좋은 저장 메시지 예시</h3>
+    <div class="copy-wrap"><div class="copy-head"><span>복사 가능한 저장 메시지 템플릿</span><button class="copy">복사</button></div><pre><code>제목: 클릭 이동 기능 추가
+한 일: 마우스를 클릭하면 공의 목표 위치가 바뀌도록 했다.
+막힌 점: 정원 밖을 클릭하면 공이 너무 멀리 갔다.
+해결: x 위치를 -3.7부터 3.7 사이로 제한했다.
+다음 할 일: 클릭한 위치에 소리와 색 변화를 추가하기.</code></pre></div>
+  </div>
+
+  <h2 id="m5">모듈 5. 최종 융합 프로젝트</h2>
+  <div class="lesson">
+    <h3>최종 프로젝트 조건</h3>
+    <ul>
+      <li>3D 객체 5개 이상</li>
+      <li>반복문 1개 이상</li>
+      <li>조건문 1개 이상</li>
+      <li>마우스 또는 키보드 상호작용 1개 이상</li>
+      <li>소리 1개 이상</li>
+      <li>저장 이력 3개 이상</li>
+      <li>README와 항해 일지 포함</li>
+    </ul>
+    <h4>아이디어 예시</h4>
+    <p>클릭하면 별이 피어나는 밤하늘, 소리가 나는 무지개 정원, 방향키로 조종하는 우주 탐사선, 반딧불이 오르골, 날씨를 표현하는 3D 사운드 풍경</p>
+  </div>
+
+  <h2 id="rubric">평가 루브릭</h2>
+  <table>
+    <thead><tr><th>영역</th><th>우수</th><th>보통</th><th>기초</th></tr></thead>
+    <tbody>
+      <tr><td>표현</td><td>3D·소리·상호작용이 아이디어와 잘 연결됨</td><td>3D 장면과 일부 상호작용이 있음</td><td>예제 수정 수준에 머묾</td></tr>
+      <tr><td>컴퓨팅 사고</td><td>반복·조건·이벤트를 목적에 맞게 사용</td><td>기본 문법을 일부 사용</td><td>코드 의미 설명이 부족</td></tr>
+      <tr><td>문제 해결</td><td>오류를 관찰하고 수정 과정을 기록</td><td>문제를 해결했으나 기록이 부족</td><td>도움 없이는 설명이 어려움</td></tr>
+      <tr><td>협업</td><td>팀원 작업을 이어받고 기록을 남김</td><td>역할 분담은 있으나 연결이 약함</td><td>개인 작업 위주</td></tr>
+      <tr><td>기록</td><td>저장 이력과 항해 일지가 과정 이해에 충분</td><td>주요 저장은 남아 있음</td><td>저장 메시지가 불분명</td></tr>
+    </tbody>
+  </table>
+
+  <h2>첫 수업 안내 문구</h2>
+  <div class="note">
+    오늘 우리는 파이썬을 “외우기”보다 “써서 표현하기”로 시작합니다. 코드 한 줄이 공이 되고, 숫자 하나가 위치가 되고, 클릭 한 번이 장면을 바꿉니다. 처음부터 완벽한 코드를 쓰는 것이 목표가 아닙니다. 작게 만들고, 실행해보고, 이상한 점을 발견하고, 고치고, 그 과정을 기록하는 것이 목표입니다.
+  </div>
+</main>
+<script>
+  document.querySelectorAll('.copy-wrap').forEach((wrap) => {
+    const btn = wrap.querySelector('button.copy');
+    const code = wrap.querySelector('code');
+    btn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(code.innerText);
+      btn.textContent = '복사됨';
+      btn.classList.add('done');
+      setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('done'); }, 1200);
+    });
+  });
+</script>
+</body>
+</html>
