@@ -193,6 +193,32 @@
     th:last-child, td:last-child { border-right: 0; }
     th { background:#f8fafc; text-align:left; color:#334155; }
     ul, ol { padding-left: 1.25rem; }
+
+    .linkbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .linkbar a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      color: var(--brand-dark);
+    }
+    .linkbar a.primary {
+      background: #111827;
+      border-color: #111827;
+      color: white;
+    }
+    .linkbar a:hover { transform: translateY(-1px); }
     @media (max-width: 720px) {
       header .wrap { padding-top: 48px; }
       .card { min-height: auto; }
@@ -203,26 +229,17 @@
 <body>
 <header>
   <div class="wrap">
-    <div class="eyebrow">VPyLab · 15시간 프로젝트형 수업</div>
-    <h1>3D와 소리로 생각을 표현하는 파이썬 수업</h1>
-    <p class="lead">파이썬을 처음 만나는 학생이 작은 장면을 만들고, 실행하고, 고치고, 기록하며 팀 프로젝트로 발전시키는 웹 교재입니다.</p>
-    <p class="lead sub">표현 · 상호작용 · 협업 · GitHub 기록을 하나의 학습 경험으로 연결합니다.</p>
+    <div class="eyebrow">VPyLab 웹 교재</div>
+    <h1>3D와 소리로 표현하는 파이썬 수업</h1>
+    <p class="lead">코드를 복사해 바로 실행하며 클릭, 키보드, 소리, GitHub 협업을 경험합니다.</p>
+    <div class="linkbar">
+      <a class="primary" href="https://thinkervis.github.io/vpylab-team-onboarding-garden-20260518/" target="_blank" rel="noopener">완성 예제 실행하기 →</a>
+      <a href="https://github.com/thinkervis/vpylab-team-onboarding-garden-20260518" target="_blank" rel="noopener">완성 코드 GitHub →</a>
+      <a href="https://github.com/thinkervis/vpylab-15h-web-textbook" target="_blank" rel="noopener">교재 GitHub →</a>
+    </div>
   </div>
 </header>
 <main>
-  <section class="grid">
-    <div class="card"><strong>대상</strong>파이썬 미경험 고등학생</div>
-    <div class="card"><strong>시간</strong>15시간 = 5개 모듈 × 3시간</div>
-    <div class="card"><strong>핵심 경험</strong>3D 표현 · 소리 · 클릭/키보드 상호작용 · 팀 협업 · GitHub 기록</div>
-    <div class="card"><strong>최종 산출물</strong>공개 가능한 VPyLab 팀 프로젝트 + README + 항해 일지</div>
-  </section>
-
-  <h2>수업의 핵심 의미</h2>
-  <div class="lesson">
-    <p>이 수업에서 학생은 코딩을 정답을 맞히는 활동이 아니라, 자신의 생각과 아이디어를 표현하는 도구로 경험합니다. 공, 꽃, 별, 반딧불, 오르골 같은 장면을 만들며 정보·수학·과학·예술·음악이 자연스럽게 연결됩니다.</p>
-    <p>교사는 2022 개정 교육과정이 강조하는 디지털 소양, 컴퓨팅 사고, 융합적 문제 해결, 협력적 프로젝트 경험을 하나의 흐름으로 설계할 수 있습니다. 저장 이력과 GitHub 커밋은 학생의 시행착오와 성장을 과정 중심으로 보여줍니다.</p>
-  </div>
-
   <h2>빠른 목차</h2>
   <div class="card toc">
     <a href="#m1">모듈 1. 내 첫 3D 장면</a>
@@ -491,8 +508,6 @@ while True:
         hero.pos.x = hero.pos.x - 0.03</code></pre></div>
     <h4>확장 미션</h4>
     <ul><li>공 색 바꾸기</li><li>음표를 바꾸기</li><li>익숙해지면 음표 리스트로 멜로디 만들기</li></ul>
-
-    <div class="teacher"><strong>완성 예제 보기:</strong> 교재 흐름을 따라 만든 완성 프로젝트는 아래 링크에서 바로 실행해볼 수 있습니다.<br><a href="https://thinkervis.github.io/vpylab-team-onboarding-garden-20260518/" target="_blank" rel="noopener">무지개 정원 구조대 GitHub Pages 열기 →</a><br><a href="https://github.com/thinkervis/vpylab-team-onboarding-garden-20260518" target="_blank" rel="noopener">완성 코드 저장소 보기 →</a></div>
   </div>
 
   <h2 id="m4">모듈 4. 팀 프로젝트와 GitHub 기록</h2>
