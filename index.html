@@ -329,17 +329,139 @@ while True:
         hero.velocity.x = -hero.velocity.x</code></pre></div>
   </div>
 
-  <h2 id="m3">모듈 3. 마우스·키보드·소리로 상호작용 만들기</h2>
+  <h2 id="m3">모듈 3. 클릭·키보드·소리를 순서대로 연결하기</h2>
   <div class="lesson">
-    <div class="lesson-title"><span class="badge">7~9차시</span><h3>클릭 오르골 정원</h3></div>
-    <p><strong>목표:</strong> 마우스 클릭을 중심으로, 키보드와 소리를 더해 상호작용 작품을 만든다.</p>
-    <p><span class="tag">scene.mouse</span><span class="tag">keysdown</span><span class="tag">play_note</span></p>
+    <div class="lesson-title"><span class="badge">7차시</span><h3>1단계: 클릭을 먼저 “감지”하기</h3></div>
+    <p><strong>목표:</strong> 마우스 클릭이 작품 안에서 하나의 사건이 된다는 것을 확인한다. 아직 공을 움직이거나 소리를 넣지 않고, 클릭하면 표시 공만 옮겨본다.</p>
+    <p><span class="tag">scene.mouse.clicked</span><span class="tag">scene.mouse.getclick</span><span class="tag">event</span></p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 6-1: 클릭한 곳에 표시하기</span><button class="copy">복사</button></div><pre><code>from vpython import *
+
+scene_background(color.cyan)
+label(pos=vector(0, 2.8, 0), text="정원을 클릭해 보세요", height=12, color=color.black)
+box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
+
+marker = sphere(pos=vector(0, 0.15, 0), radius=0.14, color=color.red)
+
+while True:
+    rate(60)
+
+    if scene.mouse.clicked:
+        click = scene.mouse.getclick()
+        marker.pos.x = click.pos.x
+        marker.pos.z = click.pos.z</code></pre></div>
+    <div class="note"><strong>클릭 코드 읽기:</strong> <code>scene.mouse.clicked</code>는 처리할 클릭이 있는지 확인하고, <code>scene.mouse.getclick()</code>은 그 클릭 이벤트 하나를 꺼내 사용합니다. 그래서 “확인한 뒤 꺼내기” 순서로 씁니다.</div>
+    <h4>생각해보기</h4>
+    <p>자동으로 움직이는 장면과, 내가 클릭했을 때 반응하는 장면은 느낌이 어떻게 다른가요?</p>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">7차시</span><h3>2단계: 클릭 위치를 목표로 사용하기</h3></div>
+    <p><strong>목표:</strong> 클릭한 위치를 바로 이동시키지 않고, “목표 위치”로 저장한 뒤 공이 천천히 따라가게 만든다. 변수의 필요성을 자연스럽게 경험한다.</p>
+    <p><span class="tag">target_x</span><span class="tag">if</span><span class="tag">위치 비교</span></p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 6-2: 클릭한 x 위치로 천천히 이동하기</span><button class="copy">복사</button></div><pre><code>from vpython import *
+
+scene_background(color.cyan)
+label(pos=vector(0, 2.8, 0), text="클릭한 쪽으로 공이 이동합니다", height=12, color=color.black)
+box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
+
+hero = sphere(pos=vector(-3.5, 0.45, 1.3), radius=0.25, color=color.white)
+marker = sphere(pos=vector(-3.5, 0.12, 1.3), radius=0.14, color=color.red)
+
+target_x = hero.pos.x
+
+while True:
+    rate(60)
+
+    if scene.mouse.clicked:
+        click = scene.mouse.getclick()
+        target_x = click.pos.x
+        marker.pos.x = target_x
+
+    if hero.pos.x < target_x:
+        hero.pos.x = hero.pos.x + 0.04
+    if hero.pos.x > target_x:
+        hero.pos.x = hero.pos.x - 0.04</code></pre></div>
+    <div class="note"><strong>스캐폴딩 포인트:</strong> 클릭은 “명령”이 아니라 “목표를 바꾸는 사건”으로 다룹니다. 그래서 이후 키보드와 소리도 같은 목표 변수에 자연스럽게 붙일 수 있습니다.</div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">8차시</span><h3>3단계: 키보드로 목표를 조금씩 조정하기</h3></div>
+    <p><strong>목표:</strong> 마우스 클릭은 큰 이동, 키보드는 미세 조정으로 역할을 나눈다. 학생이 입력 방식마다 다른 사용자 경험을 비교할 수 있게 한다.</p>
+    <p><span class="tag">keysdown</span><span class="tag">ArrowLeft</span><span class="tag">A/D</span></p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 6-3: 클릭 + 키보드 조작</span><button class="copy">복사</button></div><pre><code>from vpython import *
+
+scene_background(color.cyan)
+label(pos=vector(0, 2.8, 0), text="클릭: 큰 이동 · A/D 또는 ←/→: 조금씩 조정", height=10, color=color.black)
+box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
+
+hero = sphere(pos=vector(-3.5, 0.45, 1.3), radius=0.25, color=color.white)
+marker = sphere(pos=vector(-3.5, 0.12, 1.3), radius=0.14, color=color.red)
+
+target_x = hero.pos.x
+
+while True:
+    rate(60)
+
+    if scene.mouse.clicked:
+        click = scene.mouse.getclick()
+        target_x = click.pos.x
+
+    keys = keysdown()
+    if 'ArrowLeft' in keys or 'a' in keys:
+        target_x = target_x - 0.06
+    if 'ArrowRight' in keys or 'd' in keys:
+        target_x = target_x + 0.06
+
+    if target_x > 3.7:
+        target_x = 3.7
+    if target_x < -3.7:
+        target_x = -3.7
+
+    marker.pos.x = target_x
+
+    if hero.pos.x < target_x:
+        hero.pos.x = hero.pos.x + 0.04
+    if hero.pos.x > target_x:
+        hero.pos.x = hero.pos.x - 0.04</code></pre></div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">9차시</span><h3>4단계: 소리를 “피드백”으로 넣기</h3></div>
+    <p><strong>목표:</strong> 소리를 배경 장식으로 넣기보다, 클릭이 잘 입력되었다는 피드백으로 먼저 사용한다. 한 음만 넣어 소리 API를 안전하게 경험한다.</p>
+    <p><span class="tag">play_note</span><span class="tag">feedback</span><span class="tag">duration</span></p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 6-4: 클릭하면 한 음으로 알려주기</span><button class="copy">복사</button></div><pre><code># 아래 코드를 클릭 처리 부분 안에 추가합니다.
+
+if scene.mouse.clicked:
+    click = scene.mouse.getclick()
+    target_x = click.pos.x
+    play_note('도4', duration=0.18, type='sine', volume=0.25)</code></pre></div>
+    <h4>바꿔보기</h4>
+    <ul><li>`'도4'`를 `'미4'`, `'솔4'`로 바꾸기</li><li>`duration`을 바꿔 짧은 소리와 긴 소리 비교하기</li><li>`volume`을 바꿔 피드백으로 적당한 크기 찾기</li></ul>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">9차시</span><h3>5단계: 음표 리스트로 작은 멜로디 만들기</h3></div>
+    <p><strong>목표:</strong> 소리 한 음이 익숙해진 뒤 리스트와 인덱스를 사용해 클릭할 때마다 다른 음이 나게 한다. 리스트가 “여러 값을 담는 도구”라는 것을 표현 맥락에서 이해한다.</p>
+    <p><span class="tag">list</span><span class="tag">note_index</span><span class="tag">%</span></p>
+    <div class="copy-wrap"><div class="copy-head"><span>실습 코드 6-5: 클릭할 때마다 다음 음 내기</span><button class="copy">복사</button></div><pre><code># while True 위에 준비합니다.
+garden_notes = ['도4', '미4', '솔4', '높은도4']
+note_index = 0
+
+# 클릭 처리 부분 안에서 사용합니다.
+play_note(garden_notes[note_index], duration=0.18, type='sine', volume=0.25)
+note_index = (note_index + 1) % len(garden_notes)</code></pre></div>
+    <div class="teacher"><strong>교사용 포인트:</strong> 오디오는 마지막에 갑자기 붙이는 장식이 아니라, “사건을 알려주는 피드백 → 감정과 리듬을 더하는 표현” 순서로 확장하면 학생이 훨씬 자연스럽게 받아들입니다.</div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title"><span class="badge">7~9차시 통합</span><h3>클릭 오르골 정원 완성본</h3></div>
+    <p><strong>목표:</strong> 앞에서 만든 클릭 감지, 목표 이동, 키보드 보조, 한 음 피드백, 음표 리스트를 하나의 작품으로 합친다.</p>
     <div class="copy-wrap"><div class="copy-head"><span>통합 실습 코드: 클릭 오르골 정원</span><button class="copy">복사</button></div><pre><code>from vpython import *
 
 scene_background(color.cyan)
 
 label(pos=vector(0, 3.2, 0), text="무지개 정원 구조대", height=18, color=color.white)
-label(pos=vector(0, 2.8, 0), text="마우스 클릭: 공 이동 목표 · ← → 또는 A D: 직접 조종", height=8, color=color.black)
+label(pos=vector(0, 2.8, 0), text="클릭: 목표 정하기 · A/D 또는 ←/→: 조금씩 조정", height=8, color=color.black)
 
 box(pos=vector(0, -0.1, 0), size=vector(8, 0.2, 5), color=color.green)
 
@@ -353,7 +475,7 @@ for i in range(7):
     flowers.append(head)
 
 hero = sphere(pos=vector(-3.5, 0.45, 1.3), radius=0.25, color=color.white, make_trail=True, trail_radius=0.03)
-flag = sphere(pos=vector(-3.5, 0.08, 1.3), radius=0.12, color=color.red)
+marker = sphere(pos=vector(-3.5, 0.12, 1.3), radius=0.14, color=color.red)
 
 target_x = hero.pos.x
 garden_notes = ['도4', '미4', '솔4', '높은도4']
@@ -371,7 +493,6 @@ while True:
         if target_x < -3.7:
             target_x = -3.7
 
-        flag.pos.x = target_x
         play_note(garden_notes[note_index], duration=0.18, type='sine', volume=0.25)
         note_index = (note_index + 1) % len(garden_notes)
 
@@ -385,7 +506,8 @@ while True:
         target_x = 3.7
     if target_x < -3.7:
         target_x = -3.7
-    flag.pos.x = target_x
+
+    marker.pos.x = target_x
 
     if hero.pos.x < target_x:
         hero.pos.x = hero.pos.x + 0.04
