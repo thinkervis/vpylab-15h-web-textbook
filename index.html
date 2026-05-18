@@ -68,6 +68,13 @@
     button.copy.done { background: var(--ok); }
     pre { margin: 0; overflow:auto; padding: 16px; color: var(--codeText); font-size: .92rem; line-height:1.55; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+    .tok-kw { color:#93c5fd; font-weight:700; }
+    .tok-fn { color:#67e8f9; }
+    .tok-str { color:#fbbf24; }
+    .tok-num { color:#c4b5fd; }
+    .tok-com { color:#94a3b8; font-style:italic; }
+    .tok-builtin { color:#86efac; }
     .note { background: #fff7ed; border-color:#fed7aa; }
     .teacher { background: #f0fdf4; border-color:#bbf7d0; }
     .toc a { display:block; color: var(--brand); text-decoration:none; padding: 4px 0; }
@@ -330,11 +337,45 @@ while True:
   </div>
 </main>
 <script>
+  function escapeHtml(text) {
+    return text
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;');
+  }
+
+  function highlightInline(text) {
+    let html = escapeHtml(text);
+    html = html.replace(/(["'])(?:\\.|(?!\1).)*\1/g, '<span class="tok-str">$&</span>');
+    html = html.replace(/\b(while|if|for|in|or|and|from|import|True|False)\b/g, '<span class="tok-kw">$1</span>');
+    html = html.replace(/\b(vector|sphere|box|label|rate|range|keysdown|play_note|abs|len)\b(?=\()/g, '<span class="tok-fn">$1</span>');
+    html = html.replace(/\b(color|scene|pos|size|radius|height|text|velocity|make_trail|trail_radius|duration|type|volume)\b/g, '<span class="tok-builtin">$1</span>');
+    html = html.replace(/\b\d+(?:\.\d+)?\b/g, '<span class="tok-num">$&</span>');
+    return html;
+  }
+
+  function highlightPython(raw) {
+    return raw.split('\n').map((line) => {
+      const commentIndex = line.indexOf('#');
+      if (commentIndex >= 0) {
+        const codePart = line.slice(0, commentIndex);
+        const commentPart = line.slice(commentIndex);
+        return highlightInline(codePart) + '<span class="tok-com">' + escapeHtml(commentPart) + '</span>';
+      }
+      return highlightInline(line);
+    }).join('\n');
+  }
+
+  document.querySelectorAll('pre code').forEach((code) => {
+    code.dataset.raw = code.innerText;
+    code.innerHTML = highlightPython(code.dataset.raw);
+  });
+
   document.querySelectorAll('.copy-wrap').forEach((wrap) => {
     const btn = wrap.querySelector('button.copy');
     const code = wrap.querySelector('code');
     btn.addEventListener('click', async () => {
-      await navigator.clipboard.writeText(code.innerText);
+      await navigator.clipboard.writeText(code.dataset.raw || code.innerText);
       btn.textContent = '복사됨';
       btn.classList.add('done');
       setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('done'); }, 1200);
